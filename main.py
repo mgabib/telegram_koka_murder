@@ -1,36 +1,29 @@
 from aiogram import Bot, Dispatcher, types
+from aiogram.types import WebAppInfo, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.filters import Command
-from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
 import asyncio
-import logging
 
 TOKEN = "7546551355:AAFWib_qIbwH-Dsq0sm-G1Q5SGRyn1LWOr8"
-WEBAPP_URL = "https://telegram-webapp-koka-game-murder.onrender.com"  # Замени на свой URL
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
+# Создаём кнопку Web App
+web_app_url = "https://telegram-webapp-koka-game-murder.onrender.com"
+keyboard = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text="Играть", web_app=WebAppInfo(url=web_app_url))]
+    ]
+)
 
-from aiogram import Bot, Dispatcher, types
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
-import asyncio
-
-TOKEN = "7546551355:AAFWib_qIbwH-Dsq0sm-G1Q5SGRyn1LWOr8"
-WEB_APP_URL = "https://telegram-webapp-koka-game-murder.onrender.com"  # Замени на свою ссылку
-
-bot = Bot(token=TOKEN)
-dp = Dispatcher()
-
-@dp.message(commands=["start"])
+@dp.message(Command("start"))
 async def start_handler(message: types.Message):
-    keyboard = InlineKeyboardMarkup()
-    keyboard.add(InlineKeyboardButton("Открыть игру", web_app=WebAppInfo(url=WEB_APP_URL)))
-    await message.answer("Нажми кнопку, чтобы открыть игру!", reply_markup=keyboard)
+    await message.answer("Нажми на кнопку, чтобы начать игру:", reply_markup=keyboard)
 
 async def main():
     await dp.start_polling(bot)
 
-if name == "__main__":
+if __name__ == "__main__":
     asyncio.run(main())
 
 # Регистрируем обработчик
