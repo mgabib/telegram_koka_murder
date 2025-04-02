@@ -1,10 +1,12 @@
-from flask import Flask
+import os
+from flask import Flask, send_from_directory
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="webapp", static_url_path="")
 
-@app.route('/')
+@app.route("/")
 def index():
-    return "Hello, World!"  # Здесь позже добавится HTML-страница с игрой
+    return send_from_directory("webapp", "index.html")
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)  # Убедись, что порт совпадает с Render!
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))  # Берём порт из окружения или 10000 по умолчанию
+    app.run(host="0.0.0.0", port=port)
